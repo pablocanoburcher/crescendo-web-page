@@ -7,7 +7,6 @@
 <title>Crescendo Labs — Operaciones sin fricción</title>
 <meta name="description" content="Estudio de operaciones en Medellín. Rediseñamos los procesos manuales que frenan a restaurantes, alojamientos turísticos y estudios de belleza.">
 
-<!-- Original typography preserved: Cormorant Garamond + Epilogue + DM Mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Mono:wght@300;400;500&family=Epilogue:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,575 +23,303 @@
   --mint:#52B788; --mint-bg:rgba(82,183,136,.10);
   --gold:#B07A2A; --gold-2:#D4A843; --gold-bg:rgba(176,122,42,.10);
   --rule-1:rgba(19,18,14,.08); --rule-2:rgba(19,18,14,.14); --rule-3:rgba(19,18,14,.22);
-  --r-xs:3px; --r-sm:6px; --r-md:10px; --r-lg:14px; --r-pill:999px;
   --serif:'Cormorant Garamond','Cormorant',Georgia,serif;
   --sans:'Epilogue',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
   --mono:'DM Mono',ui-monospace,'SF Mono',Menlo,monospace;
-  --ease:cubic-bezier(.22,.61,.36,1); --ease-out-expo:cubic-bezier(.19,1,.22,1);
-  --t-fast:160ms; --t-base:280ms; --t-slow:520ms; --t-room:1300ms;
-
-  /* Room dimensions (in px, scale via JS) */
-  --room-w: 1200;
-  --room-h: 720;
-  --room-d: 900;       /* depth from front of room to back wall */
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--bg);overflow:hidden;overscroll-behavior:none}
+html,body{height:100%;width:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg)}
 html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body{
   font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.65;
-  color:var(--fg-1);
-  /* Ambient warm light filling the room — single soft source from upper-right */
+  color:var(--fg-1); cursor:none;
   background:
-    radial-gradient(1400px 900px at 75% -10%, rgba(212,168,67,.10), transparent 60%),
-    radial-gradient(1100px 800px at 10% 120%, rgba(45,106,79,.10), transparent 60%),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 60%, var(--bg-3) 100%);
-  -webkit-tap-highlight-color:transparent;
+    radial-gradient(1400px 900px at 78% 12%, rgba(212,168,67,.14), transparent 55%),
+    radial-gradient(1100px 800px at 16% 90%, rgba(45,106,79,.13), transparent 55%),
+    linear-gradient(170deg, var(--paper) 0%, var(--bg) 40%, var(--bg-2) 80%, var(--bg-3) 100%);
 }
 
-/* Soft paper grain — invisible by intent, only adds tactile depth */
+/* Atmospheric paper grain — quiet but felt */
 body::before{
   content:""; position:fixed; inset:0; z-index:1; pointer-events:none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .07  0 0 0 0 .06  0 0 0 0 .04  0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/></svg>");
-  mix-blend-mode:multiply; opacity:.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .07  0 0 0 0 .06  0 0 0 0 .04  0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode:multiply; opacity:.07;
 }
-/* Subtle room vignette */
+/* Vignette */
 body::after{
   content:""; position:fixed; inset:0; z-index:2; pointer-events:none;
-  background: radial-gradient(120% 90% at 50% 55%, transparent 60%, rgba(19,18,14,.16) 100%);
+  background: radial-gradient(120% 90% at 50% 55%, transparent 55%, rgba(19,18,14,.22) 100%);
 }
 
 /* ================== TYPE ================== */
-.kicker,.eyebrow{
+.kicker{
   font-family:var(--mono); font-size:10px; font-weight:500;
-  letter-spacing:.18em; text-transform:uppercase; color:var(--fg-3);
-  display:inline-flex; align-items:center; gap:10px;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--fg-3);
+  display:inline-flex; align-items:center; gap:12px;
 }
 .kicker-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--forest);box-shadow:0 0 0 4px var(--mint-bg)}
-.display{font-family:var(--serif); font-weight:300; line-height:.98; letter-spacing:-.02em; color:var(--ink); font-size:clamp(46px,7.2vw,108px)}
-.h2{font-family:var(--serif); font-weight:300; font-size:clamp(28px,4vw,52px); line-height:1.05; letter-spacing:-.01em; color:var(--ink)}
-.h3{font-family:var(--serif); font-weight:400; font-size:clamp(20px,2.2vw,26px); line-height:1.18; color:var(--ink)}
 em{font-style:italic; color:var(--forest-2)}
-.lead{font-size:16px; line-height:1.6; color:var(--fg-2); font-weight:300; max-width:48ch}
-.mono{font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:var(--fg-3)}
-.small{font-size:13px; color:var(--fg-2); line-height:1.55}
+.mono{font-family:var(--mono); font-size:11px; letter-spacing:.06em; color:var(--fg-3)}
 
-/* ================== THE ROOM ==================
-   A single cubic interior. Floor + back wall + side walls
-   are real planes in 3D space. We rotate the whole world
-   to navigate, never break it apart into slides. */
+/* ================== STAGE ==================
+   The whole site is a single 3D world. Mouse position = camera.
+   The world drifts forward continuously; the user steers. */
 .world-stage{
   position:fixed; inset:0; z-index:5;
-  perspective: 1800px;
-  perspective-origin: 50% 42%;
+  perspective: 2000px;
+  perspective-origin: 50% 50%;
   overflow:hidden;
 }
 .world{
-  position:absolute; inset:0;
+  position:absolute; left:50%; top:50%;
+  width:0; height:0;
   transform-style:preserve-3d;
-  transition: transform var(--t-room) var(--ease-out-expo);
-  will-change: transform;
+  will-change:transform;
 }
 
-/* The cube itself, anchored centered, walls inside */
-.cube{
-  position:absolute;
-  left:50%; top:50%;
-  width: calc(var(--room-w) * 1px);
-  height: calc(var(--room-h) * 1px);
-  transform-style:preserve-3d;
-  transform: translate3d(-50%, -50%, 0);
-}
-
-/* Architectural planes — floor, back wall, side walls */
-.plane{
-  position:absolute; left:0; top:0;
-  width: calc(var(--room-w) * 1px);
-  height: calc(var(--room-h) * 1px);
-  transform-style:preserve-3d;
+/* Atmospheric layers — fog particles drifting in space */
+.fog{
+  position:absolute; left:50%; top:50%;
+  width:1400px; height:900px;
+  margin-left:-700px; margin-top:-450px;
+  border-radius:50%;
+  background: radial-gradient(closest-side, rgba(176,122,42,.18), transparent 70%);
+  filter: blur(60px);
   pointer-events:none;
+  transform-style:preserve-3d;
 }
-.plane-back{
-  background: linear-gradient(180deg, var(--paper) 0%, var(--bg) 60%, var(--bg-2) 100%);
-  transform: translateZ(calc(var(--room-d) * -1px));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.7),
-    inset 0 0 120px rgba(176,122,42,.08),
-    0 60px 100px -30px rgba(19,18,14,.18);
-  border-radius: 2px;
-}
-.plane-back::before{
-  /* hairline frame on the back wall — interior-designer detail */
-  content:""; position:absolute; inset: 28px;
-  border: 1px solid var(--rule-1);
-  border-radius: 2px;
-}
-.plane-back::after{
-  /* a single picture-rail line, off-center */
-  content:""; position:absolute; left:0; right:0; top: 78px; height:1px;
-  background: linear-gradient(90deg, transparent, var(--rule-2) 18%, var(--rule-2) 82%, transparent);
-}
-.plane-floor{
-  height: calc(var(--room-d) * 1px);
-  width: calc(var(--room-w) * 1px);
+.fog.f1{ transform: translate3d(-200px,-100px,-2400px); background: radial-gradient(closest-side, rgba(176,122,42,.22), transparent 70%) }
+.fog.f2{ transform: translate3d( 300px, 200px,-1600px); background: radial-gradient(closest-side, rgba(45,106,79,.18), transparent 70%) }
+.fog.f3{ transform: translate3d(-400px, 280px,-800px);  background: radial-gradient(closest-side, rgba(82,183,136,.14), transparent 70%) }
+.fog.f4{ transform: translate3d( 200px,-200px,-400px);  background: radial-gradient(closest-side, rgba(176,122,42,.16), transparent 70%) }
+
+/* Floor — recedes infinitely with a gridded texture */
+.floor{
+  position:absolute; left:50%; top:50%;
+  width:6000px; height:6000px;
+  margin-left:-3000px; margin-top:0;
   background:
-    linear-gradient(180deg, transparent 0%, rgba(19,18,14,.06) 100%),
-    linear-gradient(180deg, var(--bg-2) 0%, var(--bg-3) 100%);
+    linear-gradient(180deg, transparent 0%, rgba(19,18,14,.10) 100%),
+    repeating-linear-gradient(0deg,  transparent 0 119px, rgba(19,18,14,.06) 119px 120px),
+    repeating-linear-gradient(90deg, transparent 0 119px, rgba(19,18,14,.06) 119px 120px);
+  transform: rotateX(80deg) translateY(220px);
   transform-origin: top center;
-  transform: rotateX(90deg) translateY(0);
-  top: calc(var(--room-h) * 1px);
-  /* fine grid on the floor — like marked architectural drawings */
-  background-image:
-    linear-gradient(180deg, transparent 0%, rgba(19,18,14,.05) 100%),
-    linear-gradient(180deg, var(--bg-2) 0%, var(--bg-3) 100%),
-    repeating-linear-gradient(0deg, transparent 0 79px, rgba(19,18,14,.04) 79px 80px),
-    repeating-linear-gradient(90deg, transparent 0 79px, rgba(19,18,14,.04) 79px 80px);
+  opacity:.65;
 }
-.plane-ceiling{
-  height: calc(var(--room-d) * 1px);
-  width: calc(var(--room-w) * 1px);
-  background: linear-gradient(180deg, rgba(19,18,14,.04), transparent 80%);
+.ceiling{
+  position:absolute; left:50%; top:50%;
+  width:6000px; height:6000px;
+  margin-left:-3000px; bottom:50%;
+  background: linear-gradient(0deg, transparent 0%, rgba(19,18,14,.08) 100%);
+  transform: rotateX(-80deg) translateY(-220px);
   transform-origin: bottom center;
-  transform: rotateX(-90deg);
-  top: calc(var(--room-d) * -1px);
-  opacity:.6;
-}
-.plane-left{
-  width: calc(var(--room-d) * 1px);
-  height: calc(var(--room-h) * 1px);
-  background: linear-gradient(90deg, rgba(19,18,14,.10), transparent 60%), var(--bg-2);
-  transform-origin: right center;
-  transform: rotateY(90deg);
-  left: calc(var(--room-d) * -1px);
-}
-.plane-right{
-  width: calc(var(--room-d) * 1px);
-  height: calc(var(--room-h) * 1px);
-  background: linear-gradient(-90deg, rgba(19,18,14,.10), transparent 60%), var(--bg-2);
-  transform-origin: left center;
-  transform: rotateY(-90deg);
-  left: calc(var(--room-w) * 1px);
+  opacity:.4;
 }
 
-/* "Light shafts" cast onto the back wall — single warm source */
-.lightshaft{
-  position:absolute; pointer-events:none;
-  transform: translateZ(calc(var(--room-d) * -1px + 1px));
-  background: radial-gradient(closest-side, rgba(212,168,67,.18), transparent 70%);
-  filter: blur(20px);
+/* Distant horizon line — single architectural detail */
+.horizon{
+  position:absolute; left:50%; top:50%;
+  width:5000px; height:1px;
+  margin-left:-2500px; margin-top:0;
+  background: linear-gradient(90deg, transparent, rgba(19,18,14,.18) 30%, rgba(19,18,14,.18) 70%, transparent);
+  transform: translateZ(-3500px);
 }
-.lightshaft.s1{ left:-100px; top:-60px; width:520px; height:520px; }
-.lightshaft.s2{ right:-80px; bottom:-120px; width:600px; height:600px;
-  background: radial-gradient(closest-side, rgba(45,106,79,.18), transparent 70%); }
 
-/* ================== THE SHEET (single, swaps content) ==================
-   Sits in front of the room as a flat 2D anchor — no 3D math, no z-fighting.
-   The room rotates behind it on navigation; the sheet stays stable and centered. */
-.sheet-anchor{
-  position:absolute;
-  left:50%; top:50%;
+/* ================== LANDMARKS ==================
+   Each landmark floats in 3D space at a fixed (x,y,z) coordinate.
+   The user's cursor + the world's auto-drift moves them through the
+   space, bringing landmarks into focus and out again. */
+.landmark{
+  position:absolute; left:50%; top:50%;
+  transform-style:preserve-3d;
+  will-change: opacity, transform;
+  text-align:left;
+  user-select:text;
+}
+.landmark-inner{
+  display:inline-block;
+  /* center on the landmark's anchor point */
   transform: translate(-50%, -50%);
-  z-index: 10;
+  transform-origin: center center;
+}
+
+/* Type scales for landmarks — built for being seen at depth */
+.l-display{
+  font-family:var(--serif); font-weight:300; line-height:.95; letter-spacing:-.025em;
+  color:var(--ink); font-size: 168px; white-space:nowrap;
+}
+.l-h1{
+  font-family:var(--serif); font-weight:300; line-height:1; letter-spacing:-.02em;
+  color:var(--ink); font-size: 96px;
+}
+.l-h2{
+  font-family:var(--serif); font-weight:300; line-height:1.05; letter-spacing:-.015em;
+  color:var(--ink); font-size: 64px; max-width: 880px;
+}
+.l-h3{
+  font-family:var(--serif); font-weight:400; line-height:1.1;
+  color:var(--ink); font-size: 42px;
+}
+.l-body{
+  font-family:var(--sans); font-weight:300; font-size: 22px; line-height:1.55;
+  color:var(--fg-2); max-width: 640px; margin-top: 18px;
+}
+.l-quote{
+  font-family:var(--serif); font-style:italic; font-weight:400;
+  font-size: 56px; line-height:1.2; color:var(--ink-2); max-width: 920px;
+  border-left: 2px solid var(--gold); padding-left: 28px;
+}
+.l-cite{
+  font-family:var(--mono); font-size:12px; letter-spacing:.14em; color:var(--fg-3);
+  text-transform:uppercase; margin-top: 18px; display:block;
+}
+.l-num{
+  font-family:var(--serif); font-style:italic; font-weight:300;
+  font-size: 280px; color: var(--forest-2); line-height: .8; opacity:.9;
+}
+.l-meta{
+  font-family:var(--mono); font-size:13px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--fg-3); display:flex; gap: 22px; margin-top: 16px;
+}
+.l-meta span{ position:relative; padding-right:22px; }
+.l-meta span:not(:last-child)::after{ content:"·"; position:absolute; right:0; color:var(--fg-4) }
+.l-stat-num{
+  font-family:var(--serif); font-style:italic; font-weight:300;
+  color: var(--forest-2); font-size: 96px; line-height:1;
+}
+.l-stat-label{
+  font-family:var(--serif); font-size: 28px; color:var(--ink); margin-top: 8px;
+}
+.l-tag{
+  display:inline-block; font-family:var(--mono); font-size: 13px;
+  letter-spacing:.06em; padding: 8px 16px; border-radius: 999px;
+  background: var(--mint-bg); color:var(--forest); border: 1px solid rgba(45,106,79,.22);
+  margin: 8px 6px 0 0;
+}
+.l-cta{
+  display:inline-flex; align-items:center; gap:14px;
+  font-family:var(--sans); font-weight:500; font-size:18px;
+  color: var(--paper); text-decoration:none; cursor:none;
+  padding: 18px 30px; border-radius: 999px;
+  background: linear-gradient(180deg, var(--forest), var(--forest-2));
+  box-shadow: 0 16px 36px -10px rgba(45,106,79,.65), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.l-cta-arrow{ transition: transform 240ms cubic-bezier(.22,.61,.36,1) }
+.l-cta:hover .l-cta-arrow{ transform: translateX(6px) }
+
+/* Each landmark fades and scales smoothly based on JS-driven distance to camera */
+.landmark[data-state="far"] .landmark-inner{ opacity:0; transform: translate(-50%,-50%) scale(.92); filter: blur(8px); }
+.landmark[data-state="near"] .landmark-inner{ opacity:1; transform: translate(-50%,-50%) scale(1); filter: blur(0); }
+.landmark[data-state="past"] .landmark-inner{ opacity:0; transform: translate(-50%,-50%) scale(1.4); filter: blur(12px); }
+.landmark-inner{
+  transition: opacity 700ms cubic-bezier(.19,1,.22,1),
+              transform 1100ms cubic-bezier(.19,1,.22,1),
+              filter 700ms cubic-bezier(.19,1,.22,1);
+}
+
+/* ================== ATMOSPHERIC ELEMENTS ==================
+   Floating particles + soft architectural pillars provide
+   deep parallax cues even on empty stretches. */
+.dust{
+  position:absolute; left:50%; top:50%;
+  width:5px; height:5px; border-radius:50%;
+  background: rgba(19,18,14,.35);
   pointer-events:none;
-  width: min(1080px, calc(100vw - 80px));
-  height: min(680px, calc(100vh - 200px));
-}
-.sheet{
-  position:relative;
-  width: 100%;
-  height: 100%;
-  pointer-events:auto;
-  background: linear-gradient(180deg, var(--paper) 0%, var(--bg) 100%);
-  border: 1px solid var(--rule-1);
-  border-radius: var(--r-lg);
-  box-shadow:
-    0 60px 100px -30px rgba(19,18,14,.30),
-    0 25px 50px -20px rgba(19,18,14,.18),
-    0 8px 16px -8px rgba(19,18,14,.10),
-    inset 0 1px 0 rgba(255,255,255,.7);
-  overflow:hidden;
-}
-.sheet::before{
-  content:""; position:absolute; inset:0; pointer-events:none; border-radius: var(--r-lg);
-  background:
-    radial-gradient(500px 320px at 0% 0%, rgba(176,122,42,.10), transparent 65%),
-    radial-gradient(600px 400px at 100% 100%, rgba(45,106,79,.07), transparent 65%);
-  z-index:0;
-}
-.sheet::after{
-  content:""; position:absolute; right:22px; top:22px; width:8px; height:8px; border-radius:50%;
-  background:var(--gold); box-shadow:0 0 0 4px var(--gold-bg); z-index:3;
+  filter: blur(.5px);
 }
 
-/* Scenes — block layout, not absolute. Hidden when inactive. */
-.scene{
-  display:none;
-  width: 100%; height: 100%;
-  padding: clamp(28px, 3.6vw, 56px);
-  position:relative; z-index:2;
-  opacity:0; transform: translateY(12px);
+/* ================== HUD — minimal, ambient ================== */
+.hud{
+  position:fixed; z-index:60; pointer-events:none;
+  font-family:var(--mono); font-size:10px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--fg-3);
 }
-.scene.is-active{
-  display:block;
-  animation: scene-in 700ms var(--ease-out-expo) 250ms forwards;
+.hud-tl{ top: 28px; left: 32px; display:flex; align-items:center; gap:14px; }
+.hud-tr{ top: 28px; right: 32px; }
+.hud-br{ bottom: 28px; right: 32px; text-align:right; }
+.hud-bl{ bottom: 28px; left: 32px; }
+.hud-logo{
+  font-family:var(--serif); font-weight:400; font-size: 22px;
+  letter-spacing:-.01em; color:var(--ink); text-transform:none;
 }
-@keyframes scene-in {
-  to { opacity:1; transform: translateY(0); }
+.hud-logo em{ color: var(--forest-2) }
+.hud-line{ height:1px; width: 28px; background: var(--rule-2); display:inline-block; }
+.hud-progress{
+  display:flex; align-items:center; gap: 6px;
+  font-family:var(--mono); font-size:10px; letter-spacing:.18em; color:var(--fg-2);
 }
-.scene-inner{
-  width:100%; height:100%; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch;
-  padding-right:6px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--rule-2) transparent;
+.hud-progress-bar{
+  width: 160px; height: 1px; background: var(--rule-2); position:relative; display:block;
 }
-.scene-inner::-webkit-scrollbar{ width:6px }
-.scene-inner::-webkit-scrollbar-thumb{ background:var(--rule-2); border-radius:3px }
+.hud-progress-fill{
+  position:absolute; left:0; top:0; height:100%; width:0%; background: var(--ink);
+  transition: width 200ms linear;
+}
+.hud-coords{ color: var(--fg-3); font-feature-settings:"tnum","lnum" }
 
-/* ================== NAV ================== */
-.topbar{
-  position:fixed; top:0; left:0; right:0; z-index:50;
-  padding: 18px clamp(20px, 3vw, 40px);
-  display:flex; align-items:center; justify-content:space-between;
-  pointer-events:none;
+/* Custom cursor — a single delicate ring + dot */
+.cursor{
+  position:fixed; pointer-events:none; z-index: 100;
+  width: 32px; height: 32px; border-radius:50%;
+  border: 1px solid var(--ink); transform: translate(-50%,-50%);
+  transition: transform 240ms cubic-bezier(.22,.61,.36,1), width 240ms, height 240ms, border-color 240ms;
+  mix-blend-mode: multiply;
 }
-.topbar > *{ pointer-events:auto }
-.logo{
-  font-family:var(--serif); font-weight:400; font-size:22px;
-  color:var(--ink); text-decoration:none; letter-spacing:-.01em;
-  padding:8px 12px; border-radius: var(--r-sm);
-  background: linear-gradient(180deg, rgba(251,247,240,.78), rgba(244,239,230,.5));
-  backdrop-filter: blur(12px) saturate(120%); -webkit-backdrop-filter: blur(12px) saturate(120%);
-  border: 1px solid var(--rule-1);
+.cursor.is-hover{
+  width: 64px; height: 64px; border-color: var(--forest);
 }
-.logo em{color:var(--forest-2)}
-.nav-links{
-  display:flex; gap:2px;
-  background: linear-gradient(180deg, rgba(251,247,240,.78), rgba(244,239,230,.5));
-  backdrop-filter: blur(12px) saturate(120%); -webkit-backdrop-filter: blur(12px) saturate(120%);
-  padding:5px; border-radius: var(--r-pill);
-  border: 1px solid var(--rule-1);
-}
-.nav-links a{
-  font-family:var(--sans); font-weight:400; font-size:13px;
-  color:var(--fg-2); text-decoration:none;
-  padding:8px 14px; border-radius: var(--r-pill);
-  letter-spacing:.01em; transition:all var(--t-fast) var(--ease); cursor:pointer;
-}
-.nav-links a:hover{color:var(--ink); background:rgba(19,18,14,.04)}
-.nav-links a.is-current{color:var(--paper); background:var(--ink)}
-.nav-right{display:flex; align-items:center; gap:12px}
-.lang-toggle{
-  background:transparent; border:1px solid var(--rule-2);
-  padding:7px 12px; border-radius: var(--r-pill);
-  font-family:var(--mono); font-size:10px; letter-spacing:.1em;
-  color:var(--fg-2); cursor:pointer; display:flex; gap:4px; align-items:center;
-}
-.lang-active{color:var(--ink); font-weight:500}
-.lang-sep{color:var(--fg-4)}
-.btn{
-  font-family:var(--sans); font-weight:500; font-size:13px;
-  letter-spacing:.01em; text-decoration:none;
-  display:inline-flex; align-items:center; gap:10px;
-  padding:11px 18px; border-radius: var(--r-pill);
-  cursor:pointer; border:none; transition: all var(--t-base) var(--ease);
-}
-.btn-primary{
-  background: linear-gradient(180deg, var(--forest) 0%, var(--forest-2) 100%);
-  color: var(--paper);
-  box-shadow: 0 8px 22px -8px rgba(45,106,79,.55), inset 0 1px 0 rgba(255,255,255,.18);
-}
-.btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 30px -10px rgba(45,106,79,.65)}
-.btn-sm{padding:8px 14px; font-size:12px}
-.btn-lg{padding:14px 24px; font-size:14px}
-.btn-ghost{background:transparent; color:var(--ink); border:1px solid var(--rule-2)}
-.btn-ghost:hover{border-color:var(--ink); transform:translateY(-2px)}
-.btn-arrow{transition:transform var(--t-base) var(--ease)}
-.btn:hover .btn-arrow{transform:translateX(4px)}
-
-/* ================== BOTTOM SHELF — chapters & navigation ================== */
-.shelf{
-  position:fixed; left:50%; bottom: clamp(20px, 2.6vh, 36px);
-  transform: translateX(-50%);
-  z-index: 45;
-  display:flex; align-items:center; gap: 14px;
-  padding: 10px 14px;
-  background: linear-gradient(180deg, rgba(251,247,240,.85), rgba(244,239,230,.6));
-  backdrop-filter: blur(14px) saturate(125%); -webkit-backdrop-filter: blur(14px) saturate(125%);
-  border:1px solid var(--rule-1);
-  border-radius: var(--r-pill);
-  box-shadow: 0 10px 30px -10px rgba(19,18,14,.18);
-}
-.shelf-arrow{
-  width:34px; height:34px; border-radius:50%;
-  display:grid; place-items:center;
-  background:transparent; border:1px solid var(--rule-2);
-  color:var(--ink); cursor:pointer; transition: all var(--t-fast) var(--ease);
-  font-family:var(--mono); font-size:14px;
-}
-.shelf-arrow:hover{ background: var(--ink); color: var(--paper); border-color: var(--ink) }
-.shelf-arrow:disabled{ opacity:.3; cursor:default }
-.shelf-arrow:disabled:hover{ background:transparent; color:var(--ink); border-color:var(--rule-2) }
-.shelf-rail{ display:flex; gap:4px; padding: 0 6px }
-.shelf-tick{
-  width: 28px; height: 22px; padding:0; border:none; background:transparent; cursor:pointer;
-  position:relative; display:grid; place-items:center;
-}
-.shelf-tick::after{
-  content:""; display:block; height:2px; width:14px; background: var(--rule-2);
-  border-radius: 2px; transition: all var(--t-base) var(--ease);
-}
-.shelf-tick:hover::after{ background: var(--ink); width:18px }
-.shelf-tick.is-current::after{ background: var(--forest); width: 22px }
-.shelf-counter{
-  font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--fg-2);
-  padding: 0 10px; border-left:1px solid var(--rule-1); border-right:1px solid var(--rule-1);
-  display:flex; align-items:baseline; gap:4px;
-}
-.shelf-counter .now{ color:var(--ink); font-weight:500 }
-.shelf-counter .sep{ color:var(--fg-4) }
-.shelf-name{
-  font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
-  color: var(--fg-2);
-  padding: 0 10px;
-  min-width: 100px;
+.cursor-dot{
+  position:fixed; pointer-events:none; z-index: 101;
+  width: 4px; height: 4px; border-radius:50%; background: var(--ink);
+  transform: translate(-50%,-50%);
 }
 
-/* ================== HINT (subtle, top right) ================== */
-.hint{
-  position:fixed; right: clamp(20px, 3vw, 40px); top: 86px;
-  z-index: 45;
-  font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--fg-3); display:flex; align-items:center; gap:8px;
-  opacity:.85;
-}
-.hint .key{
-  display:inline-flex; align-items:center; justify-content:center;
-  min-width:18px; height:16px; padding:0 5px;
-  border-radius:3px; background:var(--paper); border:1px solid var(--rule-2);
-  color:var(--ink); font-size:9px;
-}
-
-/* ================== HERO ================== */
-.scene-hero .hero-grid{
-  display:grid; grid-template-columns: 1.2fr 1fr; gap: clamp(36px, 5vw, 80px);
-  align-items: end; height:100%;
-}
-.hero-left{ display:flex; flex-direction:column; justify-content:center; height:100% }
-.hero-display .line{display:block; overflow:hidden}
-.hero-display .word{
-  display:inline-block; transform:translateY(110%); opacity:0;
-  transition: transform 900ms var(--ease-out-expo) calc(var(--i,0) * 90ms + 600ms),
-              opacity 600ms var(--ease) calc(var(--i,0) * 90ms + 600ms);
-}
-.is-active .hero-display .word{transform:translateY(0); opacity:1}
-.hero-underline{
-  margin-top:24px; height:1px; width:0%;
-  background: linear-gradient(90deg, var(--ink) 0%, transparent 100%);
-  transition: width 1200ms var(--ease-out-expo) 1100ms;
-}
-.is-active .hero-underline{width:62%}
-.hero-right{display:flex; flex-direction:column; gap:22px; padding-bottom:8px;
-  opacity:0; transform:translateY(20px);
-  transition: all 900ms var(--ease-out-expo) 900ms;
-}
-.is-active .hero-right{opacity:1; transform:translateY(0)}
-.hero-rule{height:1px; background:var(--rule-2); width:60px}
-.hero-ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top:4px}
-.hero-meta{display:grid; grid-template-columns: repeat(3,1fr); gap:20px; margin-top:18px; padding-top:18px; border-top:1px solid var(--rule-1)}
-.meta-cell dt{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--fg-3); margin-bottom:6px}
-.meta-cell dd{font-family:var(--serif); font-size:22px; color:var(--ink); font-weight:400}
-.num-digit{font-feature-settings:"tnum","lnum"; font-style:italic; color:var(--forest-2)}
-
-/* ================== SECTION HEAD ================== */
-.section-head{
-  display:grid; grid-template-columns: 180px 1fr; gap: clamp(20px, 4vw, 64px);
-  align-items: start; margin-bottom: 32px;
-}
-
-/* ================== MANIFESTO ================== */
-.manifesto-body{display:grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items:start}
-.manifesto-col p{margin-bottom:16px; color:var(--fg-2); font-size:15px; max-width:54ch}
-.quote{
-  font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(20px, 2.2vw, 26px);
-  line-height:1.32; color:var(--ink-2);
-  padding: 18px 0 18px 22px; border-left:2px solid var(--gold);
-  background: linear-gradient(90deg, var(--gold-bg), transparent 70%);
-}
-.citation{display:flex; gap:8px; align-items:center; margin-top:14px; font-size:13px; color:var(--fg-2)}
-.citation .author{color:var(--ink); font-weight:500}
-.citation .sep{color:var(--fg-4); font-family:inherit}
-
-/* ================== AUDIENCE ================== */
-.audience-tabs{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px}
-.aud-tab{
-  background:transparent; border:1px solid var(--rule-2);
-  padding:12px 18px; border-radius:var(--r-md);
-  display:flex; flex-direction:column; align-items:flex-start; gap:4px;
-  cursor:pointer; text-align:left; font-family:var(--sans);
-  transition:all var(--t-base) var(--ease);
-}
-.aud-tab:hover{border-color:var(--ink); transform:translateY(-2px)}
-.aud-tab.active{
-  background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
-  color:var(--paper); border-color:var(--ink);
-}
-.aud-tab.active .aud-num{color:var(--gold-2)}
-.aud-tab.active .aud-loc{color:rgba(244,239,230,.6)}
-.aud-num{font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:var(--fg-3)}
-.aud-name{font-family:var(--serif); font-size:18px; color:inherit}
-.aud-loc{font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--fg-3)}
-.audience-body{display:grid; grid-template-columns: 1.4fr 1fr; gap: clamp(28px, 4vw, 56px); align-items:start}
-.aud-tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
-.tag{font-family:var(--mono); font-size:11px; letter-spacing:.05em; padding:6px 12px; border-radius:var(--r-pill); border:1px solid currentColor}
-.tag-forest{color:var(--forest); background:var(--mint-bg); border-color:rgba(45,106,79,.2)}
-.stat-block{
-  background: linear-gradient(180deg, var(--bg-2), var(--bg-3));
-  border:1px solid var(--rule-1); border-radius:var(--r-lg);
-  padding: 24px 28px;
-}
-.numeric{font-family:var(--serif); font-style:italic; font-weight:300; font-size:clamp(56px, 7vw, 92px); line-height:1; color:var(--forest-2)}
-.stat-label{font-family:var(--serif); font-size:17px; color:var(--ink); margin-top:6px}
-.stat-note{font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--fg-3); margin-top:10px}
-
-/* ================== WORK ================== */
-.work-list{display:flex; flex-direction:column}
-.work-item{
-  display:grid; grid-template-columns: 50px 200px 1fr 200px; gap: 24px;
-  align-items:start; padding: 22px 0;
-  border-top:1px solid var(--rule-1);
-  transition: padding-left var(--t-base) var(--ease);
-}
-.work-item:last-child{border-bottom:1px solid var(--rule-1)}
-.work-item:hover{padding-left:8px}
-.work-num{font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--fg-3); padding-top:6px}
-.work-meta{display:flex; flex-direction:column; gap:4px}
-.work-client{font-family:var(--serif); font-size:20px; color:var(--ink); margin-top:4px}
-.work-year{margin-top:6px; color:var(--fg-3)}
-.work-main p{color:var(--fg-2); font-size:14px; max-width:48ch; margin-top:8px}
-.work-stat{display:flex; flex-direction:column; gap:6px; align-items:flex-start}
-.work-stat-num{font-family:var(--serif); font-style:italic; font-size:22px; color:var(--forest-2); line-height:1}
-.work-link{font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule-2); padding-bottom:2px}
-.work-link:hover{border-color:var(--ink)}
-
-/* ================== PROCESS ================== */
-.process-list{list-style:none; display:grid; grid-template-columns: repeat(4, 1fr); gap: 18px}
-.process-step{
-  position:relative; padding: 22px 18px;
-  background: linear-gradient(180deg, var(--paper), var(--bg));
-  border:1px solid var(--rule-1); border-radius: var(--r-md);
-}
-.process-num{
-  position:absolute; top:-10px; right:14px;
-  font-family:var(--serif); font-style:italic; font-size:42px;
-  color:var(--forest-2); opacity:.18;
-}
-.process-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px}
-.process-dur{color:var(--gold)}
-.process-step p{color:var(--fg-2); font-size:13.5px; line-height:1.55}
-
-/* ================== CONTACT ================== */
-.scene-contact .sheet-fill{
-  background: linear-gradient(180deg, var(--ink) 0%, var(--forest-3) 100%);
-  color: var(--bg);
-  border-radius: var(--r-md);
-  padding: clamp(28px, 3.5vw, 48px);
-  position:relative; overflow:hidden;
-}
-.scene-contact .sheet-fill::before{
-  content:""; position:absolute; inset:0; pointer-events:none;
-  background:
-    radial-gradient(420px 280px at 0% 0%, rgba(176,122,42,.20), transparent 65%),
-    radial-gradient(560px 360px at 100% 100%, rgba(82,183,136,.18), transparent 65%);
-}
-.contact-inner{display:grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items:start; position:relative}
-.scene-contact .h2{color:var(--bg)}
-.scene-contact .kicker{color:var(--gold-2)}
-.scene-contact em{color:var(--gold-2)}
-.contact-meta{display:grid; grid-template-columns: repeat(3,1fr); gap:18px; margin-top:36px; padding-top:18px; border-top:1px solid rgba(244,239,230,.15)}
-.contact-meta dt{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(244,239,230,.5); margin-bottom:6px}
-.contact-meta dd{font-family:var(--serif); font-size:14px; color:var(--bg); line-height:1.4}
-.contact-form{display:grid; grid-template-columns: 1fr 1fr; gap: 14px}
-.field{display:flex; flex-direction:column; gap:6px}
-.field-full{grid-column:1/-1}
-.field label{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(244,239,230,.6)}
-.field input, .field select, .field textarea{
-  background: rgba(244,239,230,.06); border:1px solid rgba(244,239,230,.18);
-  color:var(--bg); padding:11px 13px; border-radius: var(--r-sm);
-  font-family:var(--sans); font-size:14px; outline:none; resize:vertical;
-}
-.field input:focus, .field select:focus, .field textarea:focus{
-  border-color:var(--gold-2); background:rgba(244,239,230,.10);
-  box-shadow:0 0 0 3px rgba(212,168,67,.18)
-}
-.field input::placeholder, .field textarea::placeholder{color:rgba(244,239,230,.35)}
-.scene-contact .btn-primary{
-  width:100%; justify-content:center;
-  background: linear-gradient(180deg, var(--gold-2) 0%, var(--gold) 100%);
-  color: var(--ink);
-  box-shadow: 0 8px 24px -6px rgba(176,122,42,.55), inset 0 1px 0 rgba(255,255,255,.25)
-}
-.form-note{margin-top:10px; color:rgba(244,239,230,.45); text-align:center}
-
-/* ================== FOOTER (final scene) ================== */
-.footer-grid{display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 36px}
-.footer-col{display:flex; flex-direction:column; gap:6px}
-.footer-col a{color:var(--fg-2); text-decoration:none; font-size:14px; cursor:pointer}
-.footer-col a:hover{color:var(--ink)}
-.footer-bottom{display:flex; justify-content:space-between; margin-top:32px; padding-top:18px; border-top:1px solid var(--rule-1)}
-
-/* ================== SPLASH ================== */
+/* Splash */
 .splash{
   position:fixed; inset:0; z-index:200; background:var(--bg);
-  display:grid; place-items:center; transition:opacity 700ms var(--ease) 200ms, visibility 0s linear 1s;
+  display:grid; place-items:center;
+  transition:opacity 800ms cubic-bezier(.22,.61,.36,1) 200ms, visibility 0s linear 1.1s;
 }
 .splash.is-gone{opacity:0; visibility:hidden}
 .splash-inner{display:flex; flex-direction:column; align-items:center; gap:24px}
 .splash-logo{font-family:var(--serif); font-size:34px; color:var(--ink)}
 .splash-logo em{color:var(--forest-2)}
 .splash-bar{width:140px; height:1px; background:var(--rule-2); position:relative; overflow:hidden}
-.splash-bar::after{content:""; position:absolute; inset:0; background:var(--ink); transform-origin:left; animation: splash-fill 1100ms var(--ease) forwards}
+.splash-bar::after{content:""; position:absolute; inset:0; background:var(--ink); transform-origin:left; animation: splash-fill 1100ms cubic-bezier(.22,.61,.36,1) forwards}
 @keyframes splash-fill{from{transform:scaleX(0)} to{transform:scaleX(1)}}
-.splash-meta{font-family:var(--mono); font-size:10px; letter-spacing:.2em; color:var(--fg-3); text-transform:uppercase}
+.splash-meta{font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:var(--fg-3); text-transform:uppercase}
+
+/* End-of-world hint — only appears when user reaches the deepest landmark */
+.endhint{
+  position:fixed; left:50%; bottom: 72px; transform: translateX(-50%);
+  z-index: 55; font-family:var(--mono); font-size:10px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--fg-3);
+  opacity:0; transition: opacity 700ms;
+  pointer-events:none;
+}
+.endhint.is-visible{ opacity:.8 }
 
 /* ================== RESPONSIVE ================== */
 @media (max-width: 1100px){
-  :root{ --room-w: 980; --room-h: 640; --room-d: 760 }
-  .sheet{ padding: 36px }
-  .scene-hero .hero-grid{ grid-template-columns: 1fr; gap: 24px; align-items: start }
-  .hero-left{ height:auto }
-  .section-head{ grid-template-columns: 1fr; gap: 12px }
-  .manifesto-body, .audience-body, .contact-inner{ grid-template-columns: 1fr; gap: 28px }
-  .footer-grid{ grid-template-columns: 1fr 1fr; gap: 22px }
-  .work-item{ grid-template-columns: 36px 1fr 140px; gap: 14px }
-  .work-meta{ grid-column: 2 }
-  .work-main{ grid-column: 1 / -1; padding-left: 50px }
-  .work-stat{ grid-column: 3 }
-  .process-list{ grid-template-columns: 1fr 1fr }
-  .contact-form{ grid-template-columns: 1fr }
-  .nav-links{ display:none }
-  .hint{ display:none }
+  .l-display{ font-size: 116px } .l-h1{ font-size: 72px } .l-h2{ font-size: 48px }
+  .l-h3{ font-size: 32px } .l-body{ font-size: 18px } .l-quote{ font-size: 38px }
+  .l-num{ font-size: 200px } .l-stat-num{ font-size: 76px }
 }
 @media (max-width: 720px){
-  :root{ --room-w: 720; --room-h: 540; --room-d: 600 }
-  .sheet{ padding: 24px; width: calc(100vw - 32px); max-height: calc(100vh - 180px) }
-  .scene{ inset: 24px }
-  .display{ font-size: 40px }
-  .hero-meta{ gap: 12px }
-  .meta-cell dd{ font-size: 18px }
-  .topbar{ padding: 14px 16px }
-  .logo{ font-size: 19px; padding: 6px 10px }
-  .shelf{ gap: 8px; padding: 8px 10px }
-  .shelf-name{ display:none }
-  .work-item{ grid-template-columns: 1fr; gap: 6px }
-  .work-stat, .work-meta, .work-main{ grid-column: 1; padding-left: 0 }
-  .process-list{ grid-template-columns: 1fr }
-  .footer-grid{ grid-template-columns: 1fr }
+  body{ cursor: default }
+  .cursor, .cursor-dot{ display:none }
+  .l-display{ font-size: 64px; white-space:normal } .l-h1{ font-size: 44px } .l-h2{ font-size: 32px }
+  .l-h3{ font-size: 24px } .l-body{ font-size: 16px; max-width: 88vw } .l-quote{ font-size: 26px }
+  .l-num{ font-size: 130px } .l-stat-num{ font-size: 56px } .l-stat-label{ font-size: 20px }
+  .hud-tl, .hud-tr, .hud-bl, .hud-br{ font-size: 9px }
+  .hud-progress-bar{ width: 90px }
+  .hud-tl{ top: 18px; left: 18px } .hud-tr{ top: 18px; right: 18px }
+  .hud-bl{ bottom: 18px; left: 18px } .hud-br{ bottom: 18px; right: 18px }
 }
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{transition-duration:.01ms !important; animation-duration:.01ms !important}
-  .world{ transition: none !important }
 }
 </style>
 </head>
@@ -607,469 +334,394 @@ em{font-style:italic; color:var(--forest-2)}
   </div>
 </div>
 
-<!-- TOP BAR -->
-<header class="topbar">
-  <a href="#" class="logo" data-go="0">Crescendo <em>Labs.</em></a>
-  <nav class="nav-links" role="tablist">
-    <a data-go="3" role="tab">Trabajo</a>
-    <a data-go="2" role="tab">Servicios</a>
-    <a data-go="1" role="tab">Sobre</a>
-    <a data-go="4" role="tab">Diario</a>
-  </nav>
-  <div class="nav-right">
-    <button class="lang-toggle" aria-label="Switch language">
-      <span class="lang-active">ES</span><span class="lang-sep">/</span><span>EN</span>
-    </button>
-    <a class="btn btn-primary btn-sm" data-go="5">Auditoría gratis</a>
-  </div>
-</header>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
 
-<!-- Subtle hint -->
-<div class="hint" aria-hidden="true">
-  <span class="key">←</span><span class="key">→</span><span>navegar</span>
+<!-- HUD -->
+<div class="hud hud-tl">
+  <span class="hud-logo">Crescendo <em>Labs.</em></span>
+</div>
+<div class="hud hud-tr">
+  <div class="hud-progress">
+    <span id="hudCoords" class="hud-coords">00.00 · 00.00</span>
+  </div>
+</div>
+<div class="hud hud-bl">
+  Mové el cursor <span class="hud-line"></span> recorré el espacio
+</div>
+<div class="hud hud-br">
+  <div class="hud-progress" style="justify-content:flex-end">
+    <span id="hudPct">00%</span>
+    <span class="hud-progress-bar"><span class="hud-progress-fill" id="hudFill"></span></span>
+  </div>
 </div>
 
-<!-- THE ROOM -->
+<!-- End hint -->
+<div class="endhint" id="endhint">Has llegado al final del recorrido</div>
+
+<!-- ================== THE WORLD ================== -->
 <div class="world-stage" id="stage">
-  <!-- Architectural shell: rotates as one cube as the user navigates -->
   <div class="world" id="world">
-    <div class="cube" id="cube">
-      <div class="plane plane-back">
-        <div class="lightshaft s1"></div>
-        <div class="lightshaft s2"></div>
+
+    <!-- Atmospheric strata -->
+    <div class="floor"></div>
+    <div class="ceiling"></div>
+    <div class="horizon"></div>
+    <div class="fog f1"></div>
+    <div class="fog f2"></div>
+    <div class="fog f3"></div>
+    <div class="fog f4"></div>
+
+    <!-- LANDMARK 0 — Hero / overture -->
+    <div class="landmark" data-x="0" data-y="-20" data-z="-200">
+      <div class="landmark-inner">
+        <div class="kicker"><span class="kicker-dot"></span><span>01 — Crescendo Labs · Medellín</span></div>
+        <h1 class="l-display" style="margin-top:24px">Menos fricción.</h1>
+        <h1 class="l-display" style="margin-top:0">Más <em>oficio.</em></h1>
       </div>
-      <div class="plane plane-floor"></div>
-      <div class="plane plane-ceiling"></div>
-      <div class="plane plane-left"></div>
-      <div class="plane plane-right"></div>
     </div>
+
+    <!-- LANDMARK 1 — lead paragraph -->
+    <div class="landmark" data-x="-340" data-y="180" data-z="-700">
+      <div class="landmark-inner">
+        <div class="kicker"><span>Estudio de operaciones</span></div>
+        <p class="l-body" style="font-size:24px; max-width: 560px; margin-top: 20px">Rediseñamos los procesos manuales que frenan a restaurantes, alojamientos turísticos y estudios de belleza — sin cambiar las herramientas que ya usan.</p>
+      </div>
+    </div>
+
+    <!-- LANDMARK 2 — manifesto -->
+    <div class="landmark" data-x="380" data-y="-120" data-z="-1300">
+      <div class="landmark-inner">
+        <div class="kicker"><span>02 — Manifiesto</span></div>
+        <h2 class="l-h2" style="margin-top:18px">Un socio local que <em>habla ambos idiomas</em> — el de tu negocio y el de la tecnología.</h2>
+      </div>
+    </div>
+
+    <!-- LANDMARK 3 — manifesto continuation -->
+    <div class="landmark" data-x="-260" data-y="60" data-z="-1900">
+      <div class="landmark-inner">
+        <p class="l-body" style="font-size:22px; max-width:640px">No somos una agencia de software. Tampoco una consultoría de procesos. Somos lo que un buen operador necesita cuando su negocio creció más rápido que sus herramientas: alguien que entiende por qué el viernes se cae todo, y que sabe exactamente qué construir para que no se caiga el próximo.</p>
+      </div>
+    </div>
+
+    <!-- LANDMARK 4 — testimonial -->
+    <div class="landmark" data-x="280" data-y="160" data-z="-2500">
+      <div class="landmark-inner">
+        <blockquote class="l-quote">"Rebuilt our Friday flow in a week. We stopped losing the best night of the week."</blockquote>
+        <span class="l-cite">Santiago M. · STR investor · El Poblado</span>
+      </div>
+    </div>
+
+    <!-- LANDMARK 5 — para quién (intro) -->
+    <div class="landmark" data-x="-380" data-y="-180" data-z="-3100">
+      <div class="landmark-inner">
+        <div class="kicker"><span>03 — Para quién trabajamos</span></div>
+        <h2 class="l-h2" style="margin-top:18px">Dos negocios distintos, <em>una misma fricción:</em> los procesos manuales que crecen más rápido que tu equipo.</h2>
+      </div>
+    </div>
+
+    <!-- LANDMARK 6 — restaurantes -->
+    <div class="landmark" data-x="320" data-y="60" data-z="-3700">
+      <div class="landmark-inner">
+        <div class="kicker" style="color:var(--gold)"><span>Para restaurantes</span></div>
+        <h3 class="l-h3" style="margin-top:14px">Cuando el viernes <em>se cae</em> antes de las 8.</h3>
+        <p class="l-body" style="margin-top:14px; max-width:560px">WhatsApp, OpenTable, llamadas, Instagram. Construimos un único embudo de reservas, una planilla viva y recordatorios automáticos que bajan los no-shows desde la primera semana.</p>
+        <div style="margin-top:18px">
+          <span class="l-tag">Reservas unificadas</span>
+          <span class="l-tag">Planilla viva</span>
+          <span class="l-tag">Recordatorios</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LANDMARK 7 — STR -->
+    <div class="landmark" data-x="-300" data-y="180" data-z="-4400">
+      <div class="landmark-inner">
+        <div class="kicker" style="color:var(--gold)"><span>For short-term rental operators</span></div>
+        <h3 class="l-h3" style="margin-top:14px">When you own the <em>units</em> but your stack owns <em>you</em>.</h3>
+        <p class="l-body" style="margin-top:14px; max-width:560px">Hospitable, Airbnb, Booking, a PMS, a cleaning vendor and four spreadsheets. We consolidate what you actually need to see — occupancy, revenue, ops exceptions — into one calm view.</p>
+        <div style="margin-top:18px">
+          <span class="l-tag">PMS · OTA sync</span>
+          <span class="l-tag">Daily P&amp;L</span>
+          <span class="l-tag">Cleaning handoff</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LANDMARK 8 — number / proof -->
+    <div class="landmark" data-x="380" data-y="-160" data-z="-5000">
+      <div class="landmark-inner" style="text-align:center">
+        <div class="l-num">10h</div>
+        <div class="l-stat-label" style="margin-top:8px">ahorradas cada semana, en promedio</div>
+        <div class="mono" style="margin-top:14px">8 operadores · Q1 2026</div>
+      </div>
+    </div>
+
+    <!-- LANDMARK 9 — work intro -->
+    <div class="landmark" data-x="-360" data-y="-60" data-z="-5700">
+      <div class="landmark-inner">
+        <div class="kicker"><span>04 — Trabajo reciente</span></div>
+        <h2 class="l-h2" style="margin-top:18px">Tres negocios de Medellín <em>operando con menos esfuerzo</em>.</h2>
+      </div>
+    </div>
+
+    <!-- LANDMARK 10 — Sanalejo -->
+    <div class="landmark" data-x="280" data-y="180" data-z="-6300">
+      <div class="landmark-inner">
+        <div class="mono" style="font-size:13px; letter-spacing:.16em">01 · Restaurante · Laureles</div>
+        <h3 class="l-h1" style="margin-top:10px">Sanalejo</h3>
+        <p class="l-body">Consolidamos reservas de WhatsApp, OpenTable y el sitio en un único flujo. Reconstruimos la planilla de mesas y el sistema de recordatorios.</p>
+        <div class="l-stat-num" style="margin-top:18px">29% menos no-shows</div>
+      </div>
+    </div>
+
+    <!-- LANDMARK 11 — Casa Cielo -->
+    <div class="landmark" data-x="-320" data-y="180" data-z="-7000">
+      <div class="landmark-inner">
+        <div class="mono" style="font-size:13px; letter-spacing:.16em">02 · STR portfolio · El Poblado</div>
+        <h3 class="l-h1" style="margin-top:10px">Casa Cielo</h3>
+        <p class="l-body">Sincronizamos Hospitable, Airbnb y Booking en un P&amp;L diario con alertas de ocupación. Retiramos tres hojas de cálculo del proceso.</p>
+        <div class="l-stat-num" style="margin-top:18px">10h/semana liberadas</div>
+      </div>
+    </div>
+
+    <!-- LANDMARK 12 — Raíz -->
+    <div class="landmark" data-x="320" data-y="-180" data-z="-7700">
+      <div class="landmark-inner">
+        <div class="mono" style="font-size:13px; letter-spacing:.16em">03 · Estudio de estética · Provenza</div>
+        <h3 class="l-h1" style="margin-top:10px">Raíz</h3>
+        <p class="l-body">Automatizamos confirmaciones, depósitos y recordatorios bilingües. Conectamos facturación electrónica a la caja.</p>
+        <div class="l-stat-num" style="margin-top:18px">41% más depósitos</div>
+      </div>
+    </div>
+
+    <!-- LANDMARK 13 — process intro -->
+    <div class="landmark" data-x="0" data-y="0" data-z="-8500">
+      <div class="landmark-inner" style="text-align:center">
+        <div class="kicker"><span>05 — Cómo trabajamos</span></div>
+        <h2 class="l-h2" style="margin-top:18px">Cuatro pasos, <em>ningún misterio.</em></h2>
+      </div>
+    </div>
+
+    <!-- LANDMARK 14 — process steps grouped -->
+    <div class="landmark" data-x="-360" data-y="-60" data-z="-9300">
+      <div class="landmark-inner">
+        <div class="mono" style="font-size:13px; letter-spacing:.16em">01 · Día 1</div>
+        <h3 class="l-h3" style="margin-top:10px">Auditoría</h3>
+        <p class="l-body" style="font-size:18px; max-width:480px">30 minutos en tu negocio o por video. Identificamos las tres fricciones que más te están costando.</p>
+      </div>
+    </div>
+    <div class="landmark" data-x="320" data-y="120" data-z="-9700">
+      <div class="landmark-inner">
+        <div class="mono" style="font-size:13px; letter-spacing:.16em">02 · Día 3</div>
+        <h3 class="l-h3" style="margin-top:10px">Mapa</h3>
+        <p class="l-body" style="font-size:18px; max-width:480px">Te entregamos un documento con el diagnóstico y un plan priorizado. Es tuyo, sigamos o no.</p>
+      </div>
+    </div>
+    <div class="landmark" data-x="-300" data-y="180" data-z="-10100">
+      <div class="landmark-inner">
+        <div class="mono" style="font-size:13px; letter-spacing:.16em">03 · 2–6 sem</div>
+        <h3 class="l-h3" style="margin-top:10px">Construcción</h3>
+        <p class="l-body" style="font-size:18px; max-width:480px">Trabajamos en ciclos de una semana. Ves progreso todos los viernes. Nada se construye sin que lo apruebes.</p>
+      </div>
+    </div>
+    <div class="landmark" data-x="340" data-y="-160" data-z="-10500">
+      <div class="landmark-inner">
+        <div class="mono" style="font-size:13px; letter-spacing:.16em">04 · 90 días</div>
+        <h3 class="l-h3" style="margin-top:10px">Acompañamiento</h3>
+        <p class="l-body" style="font-size:18px; max-width:480px">Tres meses de ajustes incluidos. Respondemos el mismo día. Nos mantenemos cerca hasta que el sistema se sostiene solo.</p>
+      </div>
+    </div>
+
+    <!-- LANDMARK 15 — close / contact -->
+    <div class="landmark" data-x="0" data-y="0" data-z="-11400">
+      <div class="landmark-inner" style="text-align:center">
+        <div class="kicker"><span>06 — Empezar</span></div>
+        <h2 class="l-h1" style="margin-top:18px">30 minutos. <em>Sin costo.</em></h2>
+        <h2 class="l-h1" style="margin-top:0">Terminas con un mapa.</h2>
+        <p class="l-body" style="margin: 22px auto 0; max-width:520px; text-align:center">Contanos qué negocio tenés y qué proceso te está doliendo más. Respondemos el mismo día laboral con tres horarios posibles.</p>
+        <a href="mailto:hola@crescendo.labs" class="l-cta" style="margin-top:32px"><span>hola@crescendo.labs</span><span class="l-cta-arrow">→</span></a>
+      </div>
+    </div>
+
+    <!-- LANDMARK 16 — credit / footer -->
+    <div class="landmark" data-x="0" data-y="0" data-z="-12300">
+      <div class="landmark-inner" style="text-align:center">
+        <div class="mono">Crescendo Labs · Cra. 43A #7-50 · El Poblado, Medellín</div>
+        <div class="mono" style="margin-top:10px; color:var(--fg-4)">© 2026 · Hecho en Medellín · 6°15′N 75°34′W</div>
+      </div>
+    </div>
+
   </div>
-
-  <!-- The sheet sits in front of the room (flat 2D, always visible) -->
-  <div class="sheet-anchor">
-    <article class="sheet" id="sheet">
-
-        <!-- ============ SCENE 1 — HERO ============ -->
-        <section class="scene scene-hero is-active" data-name="Inicio">
-          <div class="scene-inner">
-            <div class="hero-grid">
-              <div class="hero-left">
-                <div class="kicker">
-                  <span class="kicker-dot" aria-hidden="true"></span>
-                  <span class="kicker-text">01 — Crescendo Labs · Medellín</span>
-                </div>
-                <h1 class="display hero-display" style="margin-top:18px" aria-label="Menos fricción. Más oficio.">
-                  <span class="line">
-                    <span class="word" style="--i:0">Menos</span>
-                    <span class="word" style="--i:1">fricción.</span>
-                  </span>
-                  <span class="line">
-                    <span class="word" style="--i:2">Más</span>
-                    <span class="word" style="--i:3"><em>oficio.</em></span>
-                  </span>
-                </h1>
-                <div class="hero-underline" aria-hidden="true"></div>
-              </div>
-              <aside class="hero-right">
-                <div class="hero-rule"></div>
-                <p class="lead">Somos un estudio de operaciones en Medellín. Rediseñamos los procesos manuales que frenan a restaurantes, alojamientos turísticos y estudios de belleza — sin cambiar las herramientas que ya usan.</p>
-                <div class="hero-ctas">
-                  <a class="btn btn-primary"><span data-go="5">Agendar auditoría</span><span class="btn-arrow" data-go="5">→</span></a>
-                  <a class="btn btn-ghost" data-go="3"><span>Ver trabajo reciente</span><span class="btn-arrow">→</span></a>
-                </div>
-                <dl class="hero-meta">
-                  <div class="meta-cell"><dt>Fundada</dt><dd><span class="num-digit">2024</span></dd></div>
-                  <div class="meta-cell"><dt>Taller</dt><dd>El Poblado</dd></div>
-                  <div class="meta-cell"><dt>Clientes</dt><dd><span class="num-digit">14</span></dd></div>
-                </dl>
-              </aside>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ SCENE 2 — MANIFIESTO ============ -->
-        <section class="scene scene-manifesto" data-name="Manifiesto">
-          <div class="scene-inner">
-            <div class="section-head">
-              <div class="kicker">02 — Manifiesto</div>
-              <h2 class="h2">Un socio local que <em>habla ambos idiomas</em> — el de tu negocio y el de la tecnología.</h2>
-            </div>
-            <div class="manifesto-body">
-              <div class="manifesto-col">
-                <p>No somos una agencia de software. Tampoco una consultoría de procesos. Somos lo que un buen operador necesita cuando su negocio creció más rápido que sus herramientas: alguien que entiende por qué el viernes se cae todo, y que sabe exactamente qué construir para que no se caiga el próximo.</p>
-                <p>Trabajamos con pocos clientes a la vez. Empezamos con una auditoría corta — 30 minutos, sin costo — que termina con un mapa concreto de las tres fricciones que más te están costando plata. Si decides seguir, construimos. Si no, te quedas con el mapa.</p>
-              </div>
-              <div class="manifesto-col">
-                <blockquote class="quote">"Rebuilt our Friday flow in a week. We stopped losing the best night of the week."</blockquote>
-                <cite class="citation"><span class="author">Santiago M.</span><span class="sep">—</span><span>STR investor, El Poblado</span></cite>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ SCENE 3 — PARA QUIÉN ============ -->
-        <section class="scene scene-services" data-name="Servicios">
-          <div class="scene-inner">
-            <div class="section-head">
-              <div class="kicker">03 — Para quién trabajamos</div>
-              <h2 class="h2">Dos negocios distintos, <em>una misma fricción:</em> los procesos que crecen más rápido que tu equipo.</h2>
-            </div>
-            <div class="audience-tabs" id="audTabs">
-              <button class="aud-tab" data-aud="rest"><span class="aud-num">01</span><span class="aud-name">Restaurantes</span><span class="aud-loc">Laureles · Provenza · Envigado</span></button>
-              <button class="aud-tab active" data-aud="str"><span class="aud-num">02</span><span class="aud-name">Short-term rentals</span><span class="aud-loc">El Poblado · Manila · Laureles</span></button>
-            </div>
-            <div class="audience-body" id="audBody">
-              <div class="aud-left">
-                <div class="kicker" style="color:var(--gold)" id="audKicker">For short-term rental operators</div>
-                <h3 class="h3" style="margin-top:10px" id="audTitle">When you own the <em>units</em> but your stack owns <em>you</em>.</h3>
-                <p class="lead" style="margin-top:14px" id="audBlurb">Hospitable, Airbnb, Booking, a PMS, a cleaning vendor, and four spreadsheets. We consolidate what you actually need to see — occupancy, revenue, ops exceptions — into one calm view, and automate the follow-up you keep forgetting on Sundays.</p>
-                <div class="aud-tags" id="audTags">
-                  <span class="tag tag-forest">PMS · OTA sync</span>
-                  <span class="tag tag-forest">Daily P&amp;L</span>
-                  <span class="tag tag-forest">Guest pre-arrival</span>
-                  <span class="tag tag-forest">Cleaning handoff</span>
-                </div>
-              </div>
-              <div class="aud-right">
-                <div class="stat-block">
-                  <div class="numeric" id="audStat">10h</div>
-                  <div class="stat-label" id="audStatLabel">saved each week</div>
-                  <div class="stat-note" id="audStatNote">Average across 8 operators · Q1 2026</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ SCENE 4 — TRABAJO ============ -->
-        <section class="scene scene-work" data-name="Trabajo">
-          <div class="scene-inner">
-            <div class="section-head">
-              <div class="kicker">04 — Trabajo reciente</div>
-              <h2 class="h2">Tres negocios de Medellín <em>operando con menos esfuerzo</em>.</h2>
-            </div>
-            <div class="work-list">
-              <article class="work-item">
-                <div class="work-num">01</div>
-                <div class="work-meta"><div class="mono">Restaurante · Laureles</div><div class="work-client">Sanalejo</div><div class="mono work-year">2025</div></div>
-                <div class="work-main">
-                  <h3 class="h3">Un viernes <em>que no se cae.</em></h3>
-                  <p>Consolidamos reservas de WhatsApp, OpenTable y el sitio web en un único flujo. Reconstruimos la planilla de mesas y el sistema de recordatorios.</p>
-                </div>
-                <div class="work-stat"><div class="work-stat-num">29% menos no-shows</div><a href="#" class="work-link">Leer caso →</a></div>
-              </article>
-              <article class="work-item">
-                <div class="work-num">02</div>
-                <div class="work-meta"><div class="mono">STR portfolio · El Poblado</div><div class="work-client">Casa Cielo</div><div class="mono work-year">2025</div></div>
-                <div class="work-main">
-                  <h3 class="h3">Un panel. <em>Doce unidades.</em></h3>
-                  <p>Sincronizamos Hospitable, Airbnb y Booking en un P&amp;L diario con alertas de ocupación. Retiramos tres hojas de cálculo del proceso.</p>
-                </div>
-                <div class="work-stat"><div class="work-stat-num">10h/semana liberadas</div><a href="#" class="work-link">Leer caso →</a></div>
-              </article>
-              <article class="work-item">
-                <div class="work-num">03</div>
-                <div class="work-meta"><div class="mono">Estudio de estética · Provenza</div><div class="work-client">Raíz</div><div class="mono work-year">2026</div></div>
-                <div class="work-main">
-                  <h3 class="h3">Agenda sin <em>citas fantasma.</em></h3>
-                  <p>Automatizamos confirmaciones, depósitos y recordatorios bilingües. Conectamos facturación electrónica a la caja.</p>
-                </div>
-                <div class="work-stat"><div class="work-stat-num">41% más depósitos</div><a href="#" class="work-link">Leer caso →</a></div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ SCENE 5 — PROCESO ============ -->
-        <section class="scene scene-process" data-name="Proceso">
-          <div class="scene-inner">
-            <div class="section-head">
-              <div class="kicker">05 — Cómo trabajamos</div>
-              <h2 class="h2">Cuatro pasos, <em>ningún misterio.</em></h2>
-            </div>
-            <ol class="process-list">
-              <li class="process-step">
-                <div class="process-num">01</div>
-                <div class="process-top"><h3 class="h3">Auditoría</h3><span class="mono process-dur">Día 1</span></div>
-                <p>30 minutos en tu negocio o por video. Identificamos las tres fricciones que más te están costando.</p>
-              </li>
-              <li class="process-step">
-                <div class="process-num">02</div>
-                <div class="process-top"><h3 class="h3">Mapa</h3><span class="mono process-dur">Día 3</span></div>
-                <p>Te entregamos un documento con el diagnóstico y un plan priorizado. Es tuyo, sigamos o no.</p>
-              </li>
-              <li class="process-step">
-                <div class="process-num">03</div>
-                <div class="process-top"><h3 class="h3">Construcción</h3><span class="mono process-dur">2–6 sem</span></div>
-                <p>Trabajamos en ciclos de una semana. Ves progreso todos los viernes. Nada se construye sin que lo apruebes.</p>
-              </li>
-              <li class="process-step">
-                <div class="process-num">04</div>
-                <div class="process-top"><h3 class="h3">Acompañamiento</h3><span class="mono process-dur">90 días</span></div>
-                <p>Tres meses de ajustes incluidos. Respondemos el mismo día. Nos mantenemos cerca hasta que el sistema se sostiene solo.</p>
-              </li>
-            </ol>
-          </div>
-        </section>
-
-        <!-- ============ SCENE 6 — CONTACTO ============ -->
-        <section class="scene scene-contact" data-name="Contacto">
-          <div class="scene-inner">
-            <div class="sheet-fill">
-              <div class="contact-inner">
-                <div class="contact-left">
-                  <div class="kicker">06 — Empezar</div>
-                  <h2 class="h2" style="margin-top:12px">30 minutos. <em>Sin costo.</em><br>Terminas con un mapa.</h2>
-                  <p style="color:rgba(244,239,230,.6); max-width:440px; margin-top:18px">Contanos qué negocio tenés y qué proceso te está doliendo más. Respondemos el mismo día laboral con tres horarios posibles.</p>
-                  <dl class="contact-meta">
-                    <div><dt>Taller</dt><dd>Cra. 43A #7-50<br>El Poblado, Medellín</dd></div>
-                    <div><dt>Correo</dt><dd>hola@crescendo.labs</dd></div>
-                    <div><dt>Horario</dt><dd>Lun–Vie · 9a–6p COT</dd></div>
-                  </dl>
-                </div>
-                <form class="contact-form" onsubmit="event.preventDefault(); alert('Gracias. Te respondemos el mismo día.');">
-                  <div class="field"><label>Nombre</label><input placeholder="Ana María"></div>
-                  <div class="field"><label>Correo</label><input type="email" placeholder="ana@tunegocio.co"></div>
-                  <div class="field"><label>Negocio</label>
-                    <select><option value="" disabled selected>Seleccionar</option><option>Restaurante</option><option>Short-term rental</option><option>Estudio de estética</option><option>Otro</option></select>
-                  </div>
-                  <div class="field"><label>Ubicación</label><input placeholder="Laureles"></div>
-                  <div class="field field-full"><label>¿Qué te gustaría mejorar?</label><textarea rows="3" placeholder="Los viernes perdemos reservas en WhatsApp…"></textarea></div>
-                  <div class="field field-full">
-                    <button class="btn btn-primary btn-lg" type="submit">Agendar auditoría gratuita</button>
-                    <div class="form-note mono">No vendemos tus datos. No te inscribimos a nada. Solo respondemos.</div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ SCENE 7 — ESTUDIO ============ -->
-        <section class="scene scene-footer" data-name="Estudio">
-          <div class="scene-inner">
-            <div class="section-head">
-              <div class="kicker">07 — Estudio</div>
-              <h2 class="h2">Crescendo <em>Labs.</em></h2>
-            </div>
-            <div class="footer-grid">
-              <div class="footer-brand">
-                <p class="small" style="max-width:340px">Estudio de operaciones. Medellín, Colombia. Construimos con pocos clientes a la vez, sobre los sistemas que ya tienen.</p>
-              </div>
-              <div class="footer-col">
-                <div class="kicker" style="color:var(--fg-3); margin-bottom:8px">Estudio</div>
-                <a data-go="1">Manifiesto</a>
-                <a data-go="3">Trabajo</a>
-                <a data-go="2">Servicios</a>
-                <a data-go="4">Proceso</a>
-              </div>
-              <div class="footer-col">
-                <div class="kicker" style="color:var(--fg-3); margin-bottom:8px">Contacto</div>
-                <a href="mailto:hola@crescendo.labs">hola@crescendo.labs</a>
-                <a href="#">+57 4 444 0000</a>
-                <a href="#">Instagram</a>
-                <a href="#">LinkedIn</a>
-              </div>
-              <div class="footer-col">
-                <div class="kicker" style="color:var(--fg-3); margin-bottom:8px">Taller</div>
-                <p class="small" style="color:var(--fg-2)">Cra. 43A #7-50<br>El Poblado, Medellín<br>Colombia</p>
-              </div>
-            </div>
-            <div class="footer-bottom">
-              <span class="mono">© Crescendo Labs · 2026</span>
-              <span class="mono">Hecho en Medellín · 6°15′N 75°34′W</span>
-            </div>
-          </div>
-        </section>
-
-    </article>
-  </div>
-</div>
-
-<!-- BOTTOM SHELF (single navigation strip) -->
-<div class="shelf" role="navigation" aria-label="Recorrido">
-  <button class="shelf-arrow" id="prev" aria-label="Anterior">‹</button>
-  <div class="shelf-counter"><span class="now" id="counterNow">01</span><span class="sep">/</span><span class="total" id="counterTotal">07</span></div>
-  <div class="shelf-rail" id="rail"></div>
-  <div class="shelf-name" id="shelfName">Inicio</div>
-  <button class="shelf-arrow" id="next" aria-label="Siguiente">›</button>
 </div>
 
 <script>
 /* ============================================================
-   CRESCENDO LABS — Cubic interior controller
-   - One room. One sheet inside it.
-   - Navigation = a single orchestrated camera move on .world
-     (translateZ + small rotateY drift), giving a sense of
-     moving deeper into / around the room.
-   - Content fades from scene to scene inside the sheet —
-     never two pieces overlapping.
+   CRESCENDO LABS — Single 3D world
+   - Mouse position drives camera (X,Y).
+   - Auto-creep moves the camera forward through Z over time.
+   - Wheel/touch gives manual Z control on top.
+   - Each landmark fades in as the camera approaches and out
+     as it passes. No clicking. No scrolling pages.
    ============================================================ */
 (function(){
-  const world  = document.getElementById('world');
-  const scenes = Array.from(document.querySelectorAll('.scene'));
-  const rail   = document.getElementById('rail');
-  const counterNow   = document.getElementById('counterNow');
-  const counterTotal = document.getElementById('counterTotal');
-  const shelfName    = document.getElementById('shelfName');
-  const prevBtn      = document.getElementById('prev');
-  const nextBtn      = document.getElementById('next');
-  const splash       = document.getElementById('splash');
+  const stage     = document.getElementById('stage');
+  const world     = document.getElementById('world');
+  const landmarks = Array.from(document.querySelectorAll('.landmark'));
+  const cursor    = document.getElementById('cursor');
+  const cursorDot = document.getElementById('cursorDot');
+  const splash    = document.getElementById('splash');
+  const hudCoords = document.getElementById('hudCoords');
+  const hudPct    = document.getElementById('hudPct');
+  const hudFill   = document.getElementById('hudFill');
+  const endhint   = document.getElementById('endhint');
 
-  let current = 0;
-  let isAnimating = false;
-  let lockTimer = null;
-  const total = scenes.length;
-  counterTotal.textContent = String(total).padStart(2,'0');
-
-  // Build rail dots
-  scenes.forEach((s, i) => {
-    const t = document.createElement('button');
-    t.className = 'shelf-tick';
-    t.setAttribute('aria-label', s.dataset.name);
-    t.addEventListener('click', () => goTo(i));
-    rail.appendChild(t);
+  // Pre-position landmarks at their (x,y,z) coordinates so they exist in world space.
+  landmarks.forEach(l => {
+    const x = parseFloat(l.dataset.x) || 0;
+    const y = parseFloat(l.dataset.y) || 0;
+    const z = parseFloat(l.dataset.z) || 0;
+    l.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+    l.dataset.zNum = z;
   });
-  const ticks = Array.from(rail.children);
 
-  // Camera positions for each scene — the room visually "breathes"
-  // as we walk through it. Subtle, never disorienting.
-  // We rotate the room slightly and pan, but keep Z within range
-  // so the central sheet always reads as the focal point.
-  function cameraFor(i){
-    const t = i / Math.max(1, total - 1);            // 0..1
-    const ry  = (t - 0.5) * 6;                        // gentle yaw, ±3°
-    const rx  = (t - 0.5) * 2;                        // slight pitch
-    const tx  = (t - 0.5) * 30;                       // tiny lateral drift
-    const ty  = Math.sin(t * Math.PI) * -8;           // soft arc up
-    return `translate3d(${tx}px, ${ty}px, 0) rotateX(${rx}deg) rotateY(${ry}deg)`;
-  }
+  // Camera state
+  // The world is moved by the inverse of the camera position.
+  let camX = 0, camY = 0, camZ = 0;        // current
+  let tgtX = 0, tgtY = 0, tgtZ = 0;        // target
+  let mouseX = 0, mouseY = 0;              // -1..1
+  let isHover = false;
 
-  function setActive(i){
-    scenes.forEach((s, idx) => s.classList.toggle('is-active', idx === i));
-    ticks.forEach((t, idx) => t.classList.toggle('is-current', idx === i));
-    counterNow.textContent = String(i + 1).padStart(2,'0');
-    shelfName.textContent  = scenes[i].dataset.name;
-    document.querySelectorAll('.nav-links a').forEach(a => {
-      const target = parseInt(a.dataset.go, 10);
-      a.classList.toggle('is-current', target === i);
-    });
-    prevBtn.disabled = i === 0;
-    nextBtn.disabled = i === total - 1;
-  }
+  // Limits
+  const Z_MIN = 0;
+  const Z_MAX = 12300;          // last landmark depth (positive = how far we've traveled)
+  const X_RANGE = 380;          // how far the camera can drift horizontally based on mouse
+  const Y_RANGE = 220;          // vertical drift range
+  const AUTO_CREEP = 0.18;      // px per frame — slow, hypnotic forward drift
 
-  function goTo(i){
-    if (i < 0) i = 0;
-    if (i >= total) i = total - 1;
-    if (i === current || isAnimating) return;
-    isAnimating = true;
-    current = i;
-    world.style.transform = cameraFor(i);
-    setActive(i);
-    clearTimeout(lockTimer);
-    lockTimer = setTimeout(() => isAnimating = false, 1200);
-  }
+  // Mouse tracking — relative to viewport center (-1..1)
+  window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth)  - 0.5;
+    mouseY = (e.clientY / window.innerHeight) - 0.5;
+    cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+    cursor.style.transform    = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+  });
 
-  // Wheel / trackpad — single-step navigation, never rapid-fire.
-  // Lets internal scroll bubble first when scrolling inside a tall scene.
-  let wheelLock = false;
-  document.addEventListener('wheel', (e) => {
-    if (Math.abs(e.deltaY) < 6 && Math.abs(e.deltaX) < 6) return;
-    // If the scroll is happening inside a scrollable scene that has more to scroll, allow it
-    const sceneInner = e.target.closest && e.target.closest('.scene-inner');
-    if (sceneInner){
-      const canScrollDown = sceneInner.scrollHeight - sceneInner.clientHeight - sceneInner.scrollTop > 4;
-      const canScrollUp   = sceneInner.scrollTop > 4;
-      if (e.deltaY > 0 && canScrollDown) return;
-      if (e.deltaY < 0 && canScrollUp) return;
-    }
+  // Cursor hover — when over a landmark with a link
+  document.body.addEventListener('mouseover', (e) => {
+    if (e.target.closest('a, .l-cta')) cursor.classList.add('is-hover');
+  });
+  document.body.addEventListener('mouseout', (e) => {
+    if (e.target.closest('a, .l-cta')) cursor.classList.remove('is-hover');
+  });
+
+  // Wheel adds/subtracts manual Z movement (forward = into the world)
+  let wheelTarget = 0;
+  window.addEventListener('wheel', (e) => {
     e.preventDefault();
-    if (wheelLock) return;
-    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    if (delta > 18){ goTo(current + 1); wheelLock = true; setTimeout(()=> wheelLock = false, 700); }
-    else if (delta < -18){ goTo(current - 1); wheelLock = true; setTimeout(()=> wheelLock = false, 700); }
+    wheelTarget += e.deltaY * 1.6;
   }, { passive:false });
 
-  // Touch
-  let tx0 = 0, ty0 = 0, touching = false;
-  document.addEventListener('touchstart', (e) => {
+  // Touch — vertical drag becomes Z movement, horizontal drag becomes X tilt
+  let tStartY = 0, tStartX = 0, touching = false;
+  window.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 1) return;
-    touching = true; tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY;
+    touching = true; tStartY = e.touches[0].clientY; tStartX = e.touches[0].clientX;
   }, { passive:true });
-  document.addEventListener('touchend', (e) => {
-    if (!touching) return; touching = false;
-    const dx = e.changedTouches[0].clientX - tx0;
-    const dy = e.changedTouches[0].clientY - ty0;
-    const primary = Math.abs(dx) > Math.abs(dy) ? dx : dy;
-    if (primary < -50) goTo(current + 1);
-    else if (primary > 50) goTo(current - 1);
+  window.addEventListener('touchmove', (e) => {
+    if (!touching) return;
+    const dy = tStartY - e.touches[0].clientY;
+    const dx = tStartX - e.touches[0].clientX;
+    wheelTarget += dy * 0.6;
+    mouseX = -dx / window.innerWidth;
+    tStartY = e.touches[0].clientY; tStartX = e.touches[0].clientX;
   }, { passive:true });
+  window.addEventListener('touchend', () => { touching = false; }, { passive:true });
 
-  // Keyboard
-  window.addEventListener('keydown', (e) => {
-    const k = e.key;
-    if (['ArrowRight','ArrowDown','PageDown',' '].includes(k)){ e.preventDefault(); goTo(current + 1); }
-    if (['ArrowLeft','ArrowUp','PageUp'].includes(k)){ e.preventDefault(); goTo(current - 1); }
-    if (k === 'Home'){ e.preventDefault(); goTo(0); }
-    if (k === 'End'){ e.preventDefault(); goTo(total - 1); }
-  });
-
-  // Buttons & data-go links
-  prevBtn.addEventListener('click', () => goTo(current - 1));
-  nextBtn.addEventListener('click', () => goTo(current + 1));
-  document.body.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-go]');
-    if (!t) return;
-    e.preventDefault();
-    const i = parseInt(t.dataset.go, 10);
-    if (!isNaN(i)) goTo(i);
-  });
-
-  // Audience tab swap
-  const audData = {
-    rest: {
-      kicker:'Para operadores de restaurantes',
-      title:'Cuando el viernes <em>se cae</em> antes de las 8.',
-      blurb:'WhatsApp, OpenTable, llamadas, Instagram. La hostess malabarea cuatro fuentes y la planilla de mesas empieza a contradecirse a las 7:45. Construimos un único embudo de reservas, una planilla viva, y recordatorios automáticos que bajan los no-shows desde la primera semana.',
-      tags:['Reservas unificadas','Planilla viva','Recordatorios','WhatsApp · OpenTable'],
-      stat:'29%', label:'menos no-shows', note:'Promedio en 4 restaurantes · Q4 2025'
-    },
-    str: {
-      kicker:'For short-term rental operators',
-      title:'When you own the <em>units</em> but your stack owns <em>you</em>.',
-      blurb:'Hospitable, Airbnb, Booking, a PMS, a cleaning vendor, and four spreadsheets. We consolidate what you actually need to see — occupancy, revenue, ops exceptions — into one calm view, and automate the follow-up you keep forgetting on Sundays.',
-      tags:['PMS · OTA sync','Daily P&L','Guest pre-arrival','Cleaning handoff'],
-      stat:'10h', label:'saved each week', note:'Average across 8 operators · Q1 2026'
-    }
-  };
-  const audKicker    = document.getElementById('audKicker');
-  const audTitle     = document.getElementById('audTitle');
-  const audBlurb     = document.getElementById('audBlurb');
-  const audTags      = document.getElementById('audTags');
-  const audStat      = document.getElementById('audStat');
-  const audStatLabel = document.getElementById('audStatLabel');
-  const audStatNote  = document.getElementById('audStatNote');
-  document.querySelectorAll('#audTabs .aud-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#audTabs .aud-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const d = audData[btn.dataset.aud];
-      audKicker.textContent = d.kicker;
-      audTitle.innerHTML    = d.title;
-      audBlurb.textContent  = d.blurb;
-      audTags.innerHTML     = d.tags.map(t => `<span class="tag tag-forest">${t}</span>`).join('');
-      audStat.textContent   = d.stat;
-      audStatLabel.textContent = d.label;
-      audStatNote.textContent  = d.note;
+  // Device orientation — phone tilt steers like a periscope
+  if (window.DeviceOrientationEvent){
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.gamma == null || e.beta == null) return;
+      mouseX = Math.max(-1, Math.min(1, e.gamma / 30));
+      mouseY = Math.max(-1, Math.min(1, (e.beta - 45) / 30));
     });
-  });
+  }
 
-  // Init camera & active state
-  world.style.transform = cameraFor(0);
-  setActive(0);
+  // Animation loop — runs at 60fps via rAF
+  function tick(){
+    // Camera target: mouse drives X/Y, auto-creep + wheel drive Z
+    tgtX = mouseX * X_RANGE;
+    tgtY = mouseY * Y_RANGE;
+
+    // Auto-creep forward, but stop near the end so you can dwell on the close
+    if (camZ < Z_MAX - 200) tgtZ = camZ + AUTO_CREEP * 60;
+    // Apply wheel input
+    if (Math.abs(wheelTarget) > 0.1){
+      tgtZ = camZ + wheelTarget * 0.6;
+      wheelTarget *= 0.85;
+    }
+    // Clamp
+    tgtZ = Math.max(Z_MIN, Math.min(Z_MAX, tgtZ));
+
+    // Smooth toward target
+    camX += (tgtX - camX) * 0.06;
+    camY += (tgtY - camY) * 0.06;
+    camZ += (tgtZ - camZ) * 0.05;
+
+    // Move world by inverse camera. Add a tiny rotation tied to mouse for parallax life.
+    const ry = mouseX * 4;   // ±4° yaw
+    const rx = -mouseY * 3;  // ±3° pitch
+    world.style.transform = `translate3d(${-camX}px, ${-camY}px, ${camZ}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+
+    // Per-landmark visibility — based on relative depth to camera
+    let nearest = null, nearestDist = Infinity;
+    landmarks.forEach(l => {
+      const z = parseFloat(l.dataset.zNum);
+      // distance along camera axis: how far the landmark is from camera
+      // positive = ahead (still to reach), negative = passed
+      const dz = -z - camZ;       // since z is negative, -z is positive depth
+      let state = 'far';
+      if (dz < -250) state = 'past';
+      else if (dz < 700) state = 'near';
+      else state = 'far';
+      if (l.dataset.state !== state) l.dataset.state = state;
+
+      // also: track the closest landmark (for HUD)
+      const adist = Math.abs(dz);
+      if (adist < nearestDist){ nearestDist = adist; nearest = l; }
+    });
+
+    // HUD — coords + progress
+    const pct = Math.max(0, Math.min(1, camZ / Z_MAX));
+    hudPct.textContent = String(Math.round(pct * 100)).padStart(2,'0') + '%';
+    hudFill.style.width = (pct * 100) + '%';
+    hudCoords.textContent = `${camZ.toFixed(0).padStart(5,'0')} · ${(camX|0).toString().padStart(4,'0')}`;
+
+    // End-of-world hint
+    endhint.classList.toggle('is-visible', camZ > Z_MAX - 400);
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 
   // Splash
   setTimeout(() => splash.classList.add('is-gone'), 950);
+
+  // Add ambient floating dust particles for parallax depth
+  const dustCount = 28;
+  const ws = world;
+  for (let i = 0; i < dustCount; i++){
+    const d = document.createElement('div');
+    d.className = 'dust';
+    const x = (Math.random() - 0.5) * 1800;
+    const y = (Math.random() - 0.5) * 1100;
+    const z = -Math.random() * Z_MAX;
+    const s = 0.4 + Math.random() * 1.6;
+    d.style.transform = `translate3d(${x}px, ${y}px, ${z}px) scale(${s})`;
+    d.style.opacity = (0.18 + Math.random() * 0.4).toString();
+    ws.appendChild(d);
+  }
 })();
 </script>
 </body>
