@@ -187,19 +187,25 @@ em{font-style:italic; color:var(--forest-2)}
   background: radial-gradient(closest-side, rgba(45,106,79,.18), transparent 70%); }
 
 /* ================== THE SHEET (single, swaps content) ==================
-   Anchored just in front of the back wall. The only piece of UI in the room.
-   Always centered. Content within fades/slides inside it as we navigate. */
-.sheet{
+   Sits in front of the room as a flat 2D anchor — no 3D math, no z-fighting.
+   The room rotates behind it on navigation; the sheet stays stable and centered. */
+.sheet-anchor{
   position:absolute;
   left:50%; top:50%;
-  width: min(1080px, calc(var(--room-w) * 1px - 96px));
-  max-height: calc(var(--room-h) * 1px - 88px);
-  transform: translate3d(-50%, -50%, calc(var(--room-d) * -1px + 80px));
-  transform-style: preserve-3d;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events:none;
+  width: min(1080px, calc(100vw - 80px));
+  height: min(680px, calc(100vh - 200px));
+}
+.sheet{
+  position:relative;
+  width: 100%;
+  height: 100%;
+  pointer-events:auto;
   background: linear-gradient(180deg, var(--paper) 0%, var(--bg) 100%);
   border: 1px solid var(--rule-1);
   border-radius: var(--r-lg);
-  padding: clamp(36px, 4vw, 64px);
   box-shadow:
     0 60px 100px -30px rgba(19,18,14,.30),
     0 25px 50px -20px rgba(19,18,14,.18),
@@ -212,27 +218,30 @@ em{font-style:italic; color:var(--forest-2)}
   background:
     radial-gradient(500px 320px at 0% 0%, rgba(176,122,42,.10), transparent 65%),
     radial-gradient(600px 400px at 100% 100%, rgba(45,106,79,.07), transparent 65%);
+  z-index:0;
 }
 .sheet::after{
-  content:""; position:absolute; right:24px; top:24px; width:8px; height:8px; border-radius:50%;
-  background:var(--gold); box-shadow:0 0 0 4px var(--gold-bg);
+  content:""; position:absolute; right:22px; top:22px; width:8px; height:8px; border-radius:50%;
+  background:var(--gold); box-shadow:0 0 0 4px var(--gold-bg); z-index:3;
 }
 
-/* Each "scene" is positioned absolutely inside the sheet — only one visible at a time */
+/* Scenes — block layout, not absolute. Hidden when inactive. */
 .scene{
-  position:absolute; inset: clamp(36px,4vw,64px);
-  opacity:0; pointer-events:none;
-  transform: translateY(14px);
-  transition: opacity 600ms var(--ease), transform 800ms var(--ease-out-expo);
+  display:none;
+  width: 100%; height: 100%;
+  padding: clamp(28px, 3.6vw, 56px);
+  position:relative; z-index:2;
+  opacity:0; transform: translateY(12px);
 }
 .scene.is-active{
-  opacity:1; pointer-events:auto;
-  transform: translateY(0);
-  transition-delay: 400ms;
+  display:block;
+  animation: scene-in 700ms var(--ease-out-expo) 250ms forwards;
 }
-/* Scenes scroll internally if very tall (rare) */
+@keyframes scene-in {
+  to { opacity:1; transform: translateY(0); }
+}
 .scene-inner{
-  width:100%; height:100%; overflow:auto; -webkit-overflow-scrolling:touch;
+  width:100%; height:100%; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch;
   padding-right:6px;
   scrollbar-width: thin;
   scrollbar-color: var(--rule-2) transparent;
@@ -622,10 +631,9 @@ em{font-style:italic; color:var(--forest-2)}
 
 <!-- THE ROOM -->
 <div class="world-stage" id="stage">
+  <!-- Architectural shell: rotates as one cube as the user navigates -->
   <div class="world" id="world">
     <div class="cube" id="cube">
-
-      <!-- Architectural planes (the actual room) -->
       <div class="plane plane-back">
         <div class="lightshaft s1"></div>
         <div class="lightshaft s2"></div>
@@ -634,10 +642,12 @@ em{font-style:italic; color:var(--forest-2)}
       <div class="plane plane-ceiling"></div>
       <div class="plane plane-left"></div>
       <div class="plane plane-right"></div>
+    </div>
+  </div>
 
-      <!-- The single sheet that sits inside the room.
-           Content swaps here as scenes — never overlapping. -->
-      <article class="sheet" id="sheet">
+  <!-- The sheet sits in front of the room (flat 2D, always visible) -->
+  <div class="sheet-anchor">
+    <article class="sheet" id="sheet">
 
         <!-- ============ SCENE 1 — HERO ============ -->
         <section class="scene scene-hero is-active" data-name="Inicio">
@@ -872,8 +882,7 @@ em{font-style:italic; color:var(--forest-2)}
           </div>
         </section>
 
-      </article>
-    </div>
+    </article>
   </div>
 </div>
 
@@ -925,13 +934,15 @@ em{font-style:italic; color:var(--forest-2)}
 
   // Camera positions for each scene — the room visually "breathes"
   // as we walk through it. Subtle, never disorienting.
+  // We rotate the room slightly and pan, but keep Z within range
+  // so the central sheet always reads as the focal point.
   function cameraFor(i){
     const t = i / Math.max(1, total - 1);            // 0..1
-    const tz  = -i * 60;                              // step deeper into the room
     const ry  = (t - 0.5) * 6;                        // gentle yaw, ±3°
-    const rx  = -1 + t * 2;                           // slight pitch shift
-    const tx  = (t - 0.5) * 24;                       // tiny lateral drift
-    return `translate3d(${tx}px, 0, ${tz}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    const rx  = (t - 0.5) * 2;                        // slight pitch
+    const tx  = (t - 0.5) * 30;                       // tiny lateral drift
+    const ty  = Math.sin(t * Math.PI) * -8;           // soft arc up
+    return `translate3d(${tx}px, ${ty}px, 0) rotateX(${rx}deg) rotateY(${ry}deg)`;
   }
 
   function setActive(i){
@@ -959,11 +970,19 @@ em{font-style:italic; color:var(--forest-2)}
     lockTimer = setTimeout(() => isAnimating = false, 1200);
   }
 
-  // Wheel / trackpad — single-step navigation, never rapid-fire
+  // Wheel / trackpad — single-step navigation, never rapid-fire.
+  // Lets internal scroll bubble first when scrolling inside a tall scene.
   let wheelLock = false;
   document.addEventListener('wheel', (e) => {
-    // Only intercept when the gesture is meaningful
     if (Math.abs(e.deltaY) < 6 && Math.abs(e.deltaX) < 6) return;
+    // If the scroll is happening inside a scrollable scene that has more to scroll, allow it
+    const sceneInner = e.target.closest && e.target.closest('.scene-inner');
+    if (sceneInner){
+      const canScrollDown = sceneInner.scrollHeight - sceneInner.clientHeight - sceneInner.scrollTop > 4;
+      const canScrollUp   = sceneInner.scrollTop > 4;
+      if (e.deltaY > 0 && canScrollDown) return;
+      if (e.deltaY < 0 && canScrollUp) return;
+    }
     e.preventDefault();
     if (wheelLock) return;
     const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
