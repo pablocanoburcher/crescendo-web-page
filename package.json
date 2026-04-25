@@ -1,0 +1,10 @@
+{
+  "name": "crescendo-labs-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Crescendo Labs — Operaciones sin fricción. Static single-file site.",
+  "scripts": {
+    "dev": "npx --yes serve . -l 3000",
+    "start": "npx --yes serve . -l 3000"
+  }
+}
